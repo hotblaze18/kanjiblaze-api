@@ -55,8 +55,8 @@ app.use(userRouter);
 
 // fs.writeFileSync("./static/cno.json", JSON.stringify(cno));
 
-const moment = require("moment");
-console.log(moment());
+// const moment = require("moment");
+// console.log(moment());
 
 const port = process.env.PORT || 3000;
 app.listen(process.env.PORT, () => console.log(`app running on port ${port}`));
