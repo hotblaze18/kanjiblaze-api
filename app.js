@@ -44,13 +44,13 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(
-  cors(corsOptions)
-);
+// app.use(
+//   cors(corsOptions)
+// );
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(userRouter);
+app.use(cors(corsOptions), userRouter);
 
 // const moment = require("moment");
 // console.log(moment());
