@@ -27,36 +27,33 @@ mongoose
     throw Error(e);
   });
 
+const whitelist = ['http://localhost:3001', 'http://kanjiblaze.herokuapp.com/'];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  optionsSuccessStatus: 200,
+}
+
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
 
 app.use(
-  cors({
-    origin: "http://localhost:3001",
-    optionsSuccessStatus: 200,
-  })
+  cors(corsOptions)
 );
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(userRouter);
 
-// const fs = require("fs");
-// const vocabs = require("./static/vocabs.json");
-// const vocreadings = vocabs.map((vocab) => vocab.kanaReading);
-// fs.writeFileSync("./static/vocreadings.json", JSON.stringify(vocreadings));
-// const cno = {};
-
-// cards.forEach((card) => {
-//   cno[card.cardNo] = card;
-// });
-
-// fs.writeFileSync("./static/cno.json", JSON.stringify(cno));
-
 // const moment = require("moment");
 // console.log(moment());
 
 const port = process.env.PORT || 3000;
-app.listen(process.env.PORT, () => console.log(`app running on port ${port}`));
+app.listen(port, () => console.log(`app running on port ${port}`));
