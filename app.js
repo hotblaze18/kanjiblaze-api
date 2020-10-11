@@ -27,7 +27,7 @@ mongoose
     throw Error(e);
   });
 
-const whitelist = ['http://localhost:3001', 'http://kanjiblaze.herokuapp.com/'];
+const whitelist = ['http://localhost:3001', 'http://kanjiblaze.herokuapp.com'];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
