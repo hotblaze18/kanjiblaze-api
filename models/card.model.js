@@ -1,19 +1,8 @@
 const mongoose = require("mongoose");
 
 const CardSchema = new mongoose.Schema({
-  cardId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
   cardNo: {
     type: Number,
-    required: true,
-  },
-  cardBody: {
-    type: String,
-  },
-  cardMeaning: {
-    type: [String],
     required: true,
   },
   belongsTo: {
@@ -31,9 +20,6 @@ const CardSchema = new mongoose.Schema({
     min: 1,
     max: 60,
   },
-  mainReadings: {
-    type: [String],
-  },
   unlocked: {
     type: Boolean,
     default: false,
@@ -49,6 +35,14 @@ const CardSchema = new mongoose.Schema({
   timesIncorrect: {
     type: Number,
     default: 0,
+  },
+  currStreak: {
+    type: Number,
+    default: 0
+  },
+  maxStreak: {
+    type: Number,
+    default: 0
   },
   cardProgress: {
     type: Number,
