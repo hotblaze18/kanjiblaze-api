@@ -12,15 +12,7 @@ const moment = require("moment");
 
 const Router = express.Router();
 
-//Get all th UiCards
-const getAllCards = async () => {
-  const [radicals, kanji, vocab] = await Promise.all([
-    Radical.find({}).lean(),
-    Kanji.find({}).lean(),
-    Vocab.find({}).lean(),
-  ]);
-  return [...radicals, ...kanji, ...vocab];
-};
+const uicards = require("../static/cards.json");
 
 // helper method to set initial user data
 const setUserData = (req, cards) => {
@@ -30,9 +22,8 @@ const setUserData = (req, cards) => {
   const userCards = [];
   const belongsTo = mongoose.Types.ObjectId();
   cards.map((card) => {
-    const { _id, type, cardNo, cardLevel } = card;
+    const { type, cardNo, cardLevel } = card;
     const cardToBepushed = {
-      cardId: _id,
       belongsTo,
       type,
       cardNo,
@@ -59,17 +50,17 @@ const setJwtCookie = (res, token) => {
     httpOnly: true,
     sameSite: 'None',
   };
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
-
+  if (process.env.NODE_ENV === "production") 
+    cookieOptions.secure = true;
   res.cookie("jwt", token, cookieOptions);
 };
 
 //Create new user and also initialize all user data
 Router.post("/user/create", async (req, res) => {
   try {
-    const cards = await getAllCards();
-    const { user, userCards } = setUserData(req, cards);
-    await Promise.all([user.save(), Card.insertMany(userCards)]);
+    const { user, userCards } = setUserData(req, uicards);
+    await user.save(); 
+    await Card.insertMany(userCards);
     const token = await user.generateAuthToken();
     setJwtCookie(res, token);
     res.status(201).send({ status: "success", data: { user }, token });
