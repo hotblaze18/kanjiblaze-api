@@ -13,8 +13,12 @@ const auth = async (req, res, next) => {
     const user = await User.findOne({
       _id: decoded._id,
       //token: token,
-    });
-    if (!user) {
+    })
+
+    const isTokenValid = token === user.token;
+    
+
+    if (!user || !isTokenValid) {
       throw new Error("Please authenticate");
     }
 

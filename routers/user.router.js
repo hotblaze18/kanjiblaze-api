@@ -237,6 +237,28 @@ Router.patch("/user/levelsinfo", auth, async (req, res) => {
   }
 });
 
+
+//sign out user
+Router.get("/user/signout", auth, async (req, res) => {
+  const user = req.user;
+  user.token = "";
+  
+  try {
+    await user.save();
+    res.status(200).send({
+      status: "success",
+      message: "successfully signed out user"
+    });
+  } catch(e) {
+    res.status(400).send({
+      status: "fail",
+      message: "Unable to complete request.Please try again later",
+    })
+  }
+})
+
+
+
 Router.post("/uicards", auth, async (req, res) => {
   const radIds = req.body.radIds;
   const kanIds = req.body.kanIds;
