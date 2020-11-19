@@ -102,7 +102,7 @@ Router.get("/user/me", auth, (req, res) => {
 });
 
 //update user level
-Router.patch("user/level", auth, async (req, res) => {
+Router.patch("/user/level", auth, async (req, res) => {
   const user = req.user;
   const { newLevel } = req.body;
   try {
