@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
     of: LevelSchema,
   },
   token: {
-    type: String,
+    type: [String],
   },
 });
 
@@ -66,7 +66,7 @@ userSchema.methods.generateAuthToken = async function () {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
-  user.token = token;
+  user.token.push(token);
   await user.save();
 
   return token;

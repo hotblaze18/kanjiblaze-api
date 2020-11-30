@@ -15,7 +15,7 @@ const auth = async (req, res, next) => {
       //token: token,
     })
 
-    const isTokenValid = token === user.token;
+    const isTokenValid = (token === user.token.find((tok) => tok === token));
     
 
     if (!user || !isTokenValid) {

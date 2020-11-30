@@ -241,7 +241,10 @@ Router.patch("/user/levelsinfo", auth, async (req, res) => {
 //sign out user
 Router.get("/user/signout", auth, async (req, res) => {
   const user = req.user;
-  user.token = "";
+  const index = user.token.indexOf(req.token);
+  if(index > -1) {
+    user.token.splice(index, 1);
+  }
   
   try {
     await user.save();
